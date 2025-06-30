@@ -12,11 +12,13 @@ mkdir -p $BUILD_DIR
 mkdir -p $OUT_DIR
 
 echo "Compiling all .c files for iOS arm64..."
-clang -arch arm64 \
-  -isysroot $(xcrun --sdk iphoneos --show-sdk-path) \
-  -I$INC_DIR \
-  -c $SRC_DIR/*.c \
-  -o $BUILD_DIR/
+
+for file in $SRC_DIR/*.c; do
+  clang -arch arm64 \
+    -isysroot $(xcrun --sdk iphoneos --show-sdk-path) \
+    -I$INC_DIR \
+    -c "$file" -o "$BUILD_DIR/$(basename "${file%.c}.o")"
+done
 
 echo "Creating static library..."
 libtool -static -o $OUTPUT $BUILD_DIR/*.o
