@@ -14,11 +14,22 @@ mkdir -p $OUT_DIR
 echo "Compiling all .c files for iOS arm64..."
 
 for file in $SRC_DIR/*.c; do
+  filename=$(basename "$file")
+  
+  # Skip files with main() or not needed in the library
+  case "$filename" in
+    brief.c|ckbrief.c|inspekt.c|spacit.c|mkspk.c|mkpc.c)
+      echo "Skipping $filename (not part of core library)"
+      continue
+      ;;
+  esac
+
   clang -arch arm64 \
     -isysroot $(xcrun --sdk iphoneos --show-sdk-path) \
     -I$INC_DIR \
     -c "$file" -o "$BUILD_DIR/$(basename "${file%.c}.o")"
 done
+
 
 echo "Creating static library..."
 libtool -static -o $OUTPUT $BUILD_DIR/*.o
