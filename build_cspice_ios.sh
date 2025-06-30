@@ -16,10 +16,10 @@ echo "Compiling all .c files for iOS arm64..."
 for file in $SRC_DIR/*.c; do
   filename=$(basename "$file")
 
-  # Skip CLI tools or non-library files
+  # Skip CLI tools and platform-specific sources
   case "$filename" in
-    brief.c|ckbrief.c|inspekt.c|spacit.c|mkspk.c|mkpc.c|chronos.c|dafun.c|mkpd.c|mkpcs.c|msopck.c|subpt.c|subslr.c)
-      echo "Skipping $filename (not part of core library)"
+    brief.c|ckbrief.c|inspekt.c|spacit.c|mkspk.c|mkpc.c|chronos.c|dafun.c|mkpd.c|mkpcs.c|msopck.c|subpt.c|subslr.c|close.c)
+      echo "Skipping $filename (not part of core iOS-compatible library)"
       continue
       ;;
   esac
