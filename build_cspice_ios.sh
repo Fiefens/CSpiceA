@@ -14,9 +14,11 @@ mkdir -p $OUT_DIR
 echo "Compiling core CSpice .c files for iOS arm64..."
 
 for file in $SRC_DIR/*.c; do
-  # Skip files that contain a 'main' function
-  if grep -qE '^\s*(int|void)?\s*main\s*\(.*\)' "$file"; then
-    echo "Skipping $(basename "$file") (contains main())"
+  filename=$(basename "$file")
+
+  # Skip files with a main() function or problematic platform-specific sources
+  if grep -qE '^\s*(int|void)?\s*main\s*\(.*\)' "$file" || [[ "$filename" == "close.c" ]]; then
+    echo "Skipping $filename (contains main() or is not iOS-compatible)"
     continue
   fi
 
