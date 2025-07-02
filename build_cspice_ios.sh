@@ -31,4 +31,4 @@ done
 echo "Creating static library..."
 libtool -static -o $OUTPUT $BUILD_DIR/*.o
 
-echo "✅ Static library created at $OUTPUT"
+echo "Static library created at $OUTPUT"
